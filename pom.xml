@@ -40,6 +40,13 @@
 			<scope>test</scope>
 		</dependency>
 
+        <!-- logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+
 		<!-- jQuery and Bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
