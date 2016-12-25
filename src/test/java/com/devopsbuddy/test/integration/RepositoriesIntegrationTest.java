@@ -60,16 +60,7 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void createNewUser(){
-        Plan p = new Plan(PlanEnum.BASIC);
-        planRepository.save(p);
-
-        Role r = new Role(RoleEnum.BASIC);
-        roleRepository.save(r);
-
-        User user = UserUtils.createBasicUser();
-        user.setPlan(p);
-        user.add(r);
-        User savedUser = userRepository.save(user);
+        User savedUser = createUser();
 
         User retrievedUser = userRepository.findOne(savedUser.getId());
         Assert.assertNotNull(retrievedUser);
@@ -82,6 +73,31 @@ public class RepositoriesIntegrationTest {
         for (Role role: roles) {
             Assert.assertNotNull(role.getId());
         }
+    }
+
+
+
+    @Test
+    public void testDeleteUser() throws Exception{
+        User user = createUser();
+        userRepository.delete(user.getId());
+    }
+
+
+
+    private User createUser(){
+        Plan p = new Plan(PlanEnum.BASIC);
+        planRepository.save(p);
+
+        Role r = new Role(RoleEnum.BASIC);
+        roleRepository.save(r);
+
+        User user = UserUtils.createBasicUser();
+        user.setPlan(p);
+        user.add(r);
+        User savedUser = userRepository.save(user);
+        return savedUser;
+
     }
 
 
