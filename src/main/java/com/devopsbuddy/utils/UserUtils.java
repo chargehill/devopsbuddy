@@ -11,11 +11,11 @@ public class UserUtils {
     private UserUtils() {
     }
 
-    public static User createBasicUser() {
+    public static User createBasicUser(String userName, String email) {
         User user = new User();
-        user.setUserName("basicUser");
+        user.setUserName(userName);
         user.setPassword("secret");
-        user.setEmail("me@example.com");
+        user.setEmail(email);
         user.setFirstName("firstName");
         user.setLastName("lastName");
         user.setPhone("123456789");

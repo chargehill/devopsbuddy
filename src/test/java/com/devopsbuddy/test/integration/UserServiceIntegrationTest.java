@@ -8,7 +8,9 @@ import com.devopsbuddy.enums.PlanEnum;
 import com.devopsbuddy.enums.RoleEnum;
 import com.devopsbuddy.utils.UserUtils;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +30,9 @@ public class UserServiceIntegrationTest {
 
     @Autowired
     private UserService userService;
+    @Rule
+    public TestName testName = new TestName();
+
 
     @Test
     public void testCreateNewUser() throws Exception{
@@ -35,7 +40,9 @@ public class UserServiceIntegrationTest {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
 
-        User basicUser = UserUtils.createBasicUser();
+        String userName = testName.getMethodName();
+        String email = testName.getMethodName() + "@devopsbuddy.com";
+        User basicUser = UserUtils.createBasicUser(userName, email);
 
         User user = userService.createUser(basicUser, PlanEnum.BASIC, roles);
         Assert.assertNotNull(user);

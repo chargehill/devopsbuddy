@@ -11,7 +11,10 @@ import com.devopsbuddy.enums.PlanEnum;
 import com.devopsbuddy.enums.RoleEnum;
 import com.devopsbuddy.utils.UserUtils;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +38,11 @@ public class RepositoriesIntegrationTest {
     private UserRepository userRepository;
 
 
+    @Rule
+    public TestName testName = new TestName();
+
+
+    @Before
     public void init(){
         Assert.assertNotNull(planRepository);
         Assert.assertNotNull(roleRepository);
@@ -60,7 +68,10 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void createNewUser(){
-        User savedUser = createUser();
+        String userName = testName.getMethodName();
+        String email = testName.getMethodName() + "@devopsbuddy.com";
+
+        User savedUser = createUser(userName, email);
 
         User retrievedUser = userRepository.findOne(savedUser.getId());
         Assert.assertNotNull(retrievedUser);
@@ -79,20 +90,23 @@ public class RepositoriesIntegrationTest {
 
     @Test
     public void testDeleteUser() throws Exception{
-        User user = createUser();
+        String userName = testName.getMethodName();
+        String email = testName.getMethodName() + "@devopsbuddy.com";
+
+        User user = createUser(userName, email);
         userRepository.delete(user.getId());
     }
 
 
 
-    private User createUser(){
+    private User createUser(String userName, String email){
         Plan p = new Plan(PlanEnum.BASIC);
         planRepository.save(p);
 
         Role r = new Role(RoleEnum.BASIC);
         roleRepository.save(r);
 
-        User user = UserUtils.createBasicUser();
+        User user = UserUtils.createBasicUser(userName, email);
         user.setPlan(p);
         user.add(r);
         User savedUser = userRepository.save(user);
