@@ -2,6 +2,7 @@ package com.devopsbuddy.backend.persistence.domain.backend;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,6 +16,8 @@ public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(name = "user_name")
+    private String userName;
     private String password;
     private String email;
     @Column(name = "first_name")
@@ -35,7 +38,7 @@ public class User implements Serializable{
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "User_Role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
@@ -44,6 +47,7 @@ public class User implements Serializable{
 
 
     public User() {
+        roles = new HashSet<>();
     }
 
 
@@ -53,6 +57,15 @@ public class User implements Serializable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -143,6 +156,19 @@ public class User implements Serializable{
         this.plan = plan;
     }
 
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+    public void add(Role role){
+        this.roles.add(role);
+    }
 
     @Override
     public boolean equals(Object o) {

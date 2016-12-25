@@ -1,8 +1,8 @@
 package com.devopsbuddy.backend.persistence.domain.backend;
 
+import com.devopsbuddy.enums.RoleEnum;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -20,6 +20,11 @@ public class Role implements Serializable{
 
 
     public Role() {
+    }
+
+    public Role(RoleEnum role){
+        this.id = role.getId();
+        this.name = role.getRoleName();
     }
 
     public int getId() {
