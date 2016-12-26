@@ -1,4 +1,4 @@
-package com.devopsbuddy.web.i18n;
+package com.devopsbuddy.backend.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class I18nService {
      * @param locale
      * @return
      */
-    private String getMessage(String messageId, Locale locale) {
+    public String getMessage(String messageId, Locale locale) {
         return messageSource.getMessage(messageId, null, locale);
     }
 

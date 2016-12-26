@@ -1,6 +1,7 @@
 package com.devopsbuddy.config;
 
 import com.devopsbuddy.backend.service.UserSecurityService;
+import com.devopsbuddy.web.controllers.ForgotPasswordController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,18 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-    private static final String[] PUBLIC_PATTERNS= {"/webjars/**", "/css/**", "/js/**", "/images/**", "/", "/about/**", "/contact/**", "/error/**/*", "/console/**"};
+    private static final String[] PUBLIC_PATTERNS= {
+            "/webjars/**",
+            "/css/**",
+            "/js/**",
+            "/images/**",
+            "/",
+            "/about/**",
+            "/contact/**",
+            "/error/**/*",
+            "/console/**",
+            ForgotPasswordController.FORGOT_PASSWORD_URL_MAPPING
+    };
 
     @Autowired
     private Environment env;

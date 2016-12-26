@@ -1,6 +1,9 @@
 package com.devopsbuddy.utils;
 
 import com.devopsbuddy.backend.persistence.domain.backend.User;
+import com.devopsbuddy.web.controllers.ForgotPasswordController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by octavio on 12/24/16.
@@ -26,4 +29,9 @@ public class UserUtils {
         return user;
     }
 
+    public static String createPasswordResetUrl(HttpServletRequest request, long userId, String token) {
+        String result = String.format("%s://%s:%d%s%s?id=%d&token=%s", request.getScheme(), request.getServerName(), request.getServerPort(),
+                request.getContextPath(), ForgotPasswordController.CHANGE_PASSWORD_PATH, userId, token);
+        return result;
+    }
 }
