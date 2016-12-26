@@ -50,9 +50,13 @@ public class User implements Serializable, UserDetails{
     )
     private Set<Role> roles;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "user")
+    private Set<PasswordResetToken> passwordResetTokens;
+
 
     public User() {
         roles = new HashSet<>();
+        passwordResetTokens = new HashSet<>();
     }
 
 

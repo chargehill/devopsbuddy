@@ -29,13 +29,7 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 //@SpringApplicationConfiguration(classes = DevopsbuddyApplication.class)
 @SpringBootTest(classes = DevopsbuddyApplication.class)
-public class RepositoriesIntegrationTest {
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private UserRepository userRepository;
+public class UserIntegrationTest extends AbstractIntegrationTest{
 
 
     @Rule
@@ -99,20 +93,6 @@ public class RepositoriesIntegrationTest {
 
 
 
-    private User createUser(String userName, String email){
-        Plan p = new Plan(PlanEnum.BASIC);
-        planRepository.save(p);
-
-        Role r = new Role(RoleEnum.BASIC);
-        roleRepository.save(r);
-
-        User user = UserUtils.createBasicUser(userName, email);
-        user.setPlan(p);
-        user.add(r);
-        User savedUser = userRepository.save(user);
-        return savedUser;
-
-    }
 
 
 }
