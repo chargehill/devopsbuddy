@@ -58,7 +58,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserPaswword(long userId, String password){
+    public void updateUserPassword(long userId, String password){
         String encodedPassword = passwordEncoder.encode(password);
         userRepository.updateUserPassword(userId, encodedPassword);
         LOG.debug("Password updated successfully for user id {}", userId);
