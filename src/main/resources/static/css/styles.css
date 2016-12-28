@@ -66,4 +66,8 @@ body {
     letter-spacing: -1px;
 }
 
+/* Signup form */
 
+.fieldError {
+    border: 2px solid red;
+}
