@@ -85,6 +85,26 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
 
+        <!-- AWS -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-core</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <!-- Commons  -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
 		<!-- jQuery and Bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>

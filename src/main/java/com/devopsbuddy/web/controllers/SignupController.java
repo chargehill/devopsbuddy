@@ -4,6 +4,7 @@ import com.devopsbuddy.backend.persistence.domain.backend.Plan;
 import com.devopsbuddy.backend.persistence.domain.backend.Role;
 import com.devopsbuddy.backend.persistence.domain.backend.User;
 import com.devopsbuddy.backend.service.PlanService;
+import com.devopsbuddy.backend.service.S3Service;
 import com.devopsbuddy.backend.service.UserService;
 import com.devopsbuddy.enums.PlanEnum;
 import com.devopsbuddy.enums.RoleEnum;
@@ -39,6 +40,8 @@ public class SignupController {
     private UserService userService;
     @Autowired
     private PlanService planService;
+    @Autowired
+    private S3Service s3Service;
 
     public static final String SIGNUP_URL_MAPPING = "/signup";
     public static final String PAYLOAD_MODEL_KEY_NAME = "payload";
@@ -63,7 +66,7 @@ public class SignupController {
 
     @RequestMapping(value = SIGNUP_URL_MAPPING, method = RequestMethod.POST)
     public String signUpPost(@RequestParam(name = "planId", required = true) int planId,
-                             //@RequestParam(name = "file", required = false) MultipartFile file,
+                             @RequestParam(name = "file", required = false) MultipartFile file,
                              @ModelAttribute(PAYLOAD_MODEL_KEY_NAME) @Valid ProAccountPayload payload,
                              ModelMap model) throws IOException {
 
@@ -105,7 +108,7 @@ public class SignupController {
         User user = UserUtils.fromWebUserToDomainUser(payload);
 
         // Stores the profile image on Amazon S3 and stores the URL in the user's record
-        /*
+
         if (file != null && !file.isEmpty()) {
 
             String profileImageUrl = s3Service.storeProfileImage(file, payload.getUsername());
@@ -117,7 +120,7 @@ public class SignupController {
             }
 
         }
-        */
+
 
         // Sets the Plan and the Roles (depending on the chosen plan)
         LOG.debug("Retrieving plan from the database");
