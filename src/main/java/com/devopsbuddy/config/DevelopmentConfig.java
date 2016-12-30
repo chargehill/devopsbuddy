@@ -3,6 +3,7 @@ package com.devopsbuddy.config;
 import com.devopsbuddy.backend.service.EmailService;
 import com.devopsbuddy.backend.service.MockEmailService;
 import org.h2.server.web.WebServlet;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,10 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("File:///Users/${user.name}/desktop/Udemy/FullStack/config/app-dev.properties")
 public class DevelopmentConfig {
 
+    @Value("${stripe.test.private.key}")
+    private String stripeDevKey;
+
+
     @Bean
     public ServletRegistrationBean h2ConsoleServletRegistration(){
         ServletRegistrationBean result = new ServletRegistrationBean(new WebServlet());
@@ -29,5 +34,11 @@ public class DevelopmentConfig {
     @Bean
     public EmailService emailService() {
         return new MockEmailService();
+    }
+
+
+    @Bean
+    public String stripeKey(){
+        return stripeDevKey;
     }
 }

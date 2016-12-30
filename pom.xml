@@ -98,6 +98,13 @@
             <version>LATEST</version>
         </dependency>
 
+        <!-- Stripe -->
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>1.40.0</version>
+        </dependency>
+
         <!-- Commons  -->
         <dependency>
             <groupId>commons-io</groupId>

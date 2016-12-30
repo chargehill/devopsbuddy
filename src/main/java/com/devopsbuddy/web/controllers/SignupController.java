@@ -5,9 +5,11 @@ import com.devopsbuddy.backend.persistence.domain.backend.Role;
 import com.devopsbuddy.backend.persistence.domain.backend.User;
 import com.devopsbuddy.backend.service.PlanService;
 import com.devopsbuddy.backend.service.S3Service;
+import com.devopsbuddy.backend.service.StripeService;
 import com.devopsbuddy.backend.service.UserService;
 import com.devopsbuddy.enums.PlanEnum;
 import com.devopsbuddy.enums.RoleEnum;
+import com.devopsbuddy.utils.StripeUtils;
 import com.devopsbuddy.utils.UserUtils;
 import com.devopsbuddy.web.domain.frontend.BasicAccountPayload;
 import com.devopsbuddy.web.domain.frontend.ProAccountPayload;
@@ -42,6 +44,8 @@ public class SignupController {
     private PlanService planService;
     @Autowired
     private S3Service s3Service;
+    @Autowired
+    private StripeService stripeService;
 
     public static final String SIGNUP_URL_MAPPING = "/signup";
     public static final String PAYLOAD_MODEL_KEY_NAME = "payload";
@@ -143,7 +147,7 @@ public class SignupController {
         } else {
             roles.add(new Role(RoleEnum.PRO));
 
-            /*
+
             // Extra precaution in case the POST method is invoked programmatically
             if (StringUtils.isEmpty(payload.getCardCode()) ||
                     StringUtils.isEmpty(payload.getCardNumber()) ||
@@ -169,7 +173,7 @@ public class SignupController {
             LOG.info("Username: {} has been subscribed to Stripe", payload.getUsername());
 
             user.setStripeCustomerId(stripeCustomerId);
-            */
+
 
             registeredUser = userService.createUser(user, PlanEnum.PRO, roles);
             LOG.debug(payload.toString());
