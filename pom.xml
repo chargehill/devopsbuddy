@@ -79,6 +79,11 @@
             <artifactId>h2</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
         <!-- Hibernate Dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -92,11 +97,6 @@
             <version>LATEST</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-core</artifactId>
-            <version>LATEST</version>
-        </dependency>
 
         <!-- Stripe -->
         <dependency>

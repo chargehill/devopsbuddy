@@ -1,8 +1,10 @@
 package com.devopsbuddy.backend.service;
 
+import com.devopsbuddy.backend.persistence.domain.backend.PasswordResetToken;
 import com.devopsbuddy.backend.persistence.domain.backend.Plan;
 import com.devopsbuddy.backend.persistence.domain.backend.Role;
 import com.devopsbuddy.backend.persistence.domain.backend.User;
+import com.devopsbuddy.backend.persistence.repositories.PasswordResetTokenRepository;
 import com.devopsbuddy.backend.persistence.repositories.PlanRepository;
 import com.devopsbuddy.backend.persistence.repositories.RoleRepository;
 import com.devopsbuddy.backend.persistence.repositories.UserRepository;
@@ -32,29 +34,34 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
 
     @Transactional
     public User createUser(User user, PlanEnum planEnum, Set<Role> roles){
-        Plan plan = new Plan(planEnum);
-        if(!planRepository.exists(planEnum.getId())){
-            planRepository.save(plan);
-        }
-        user.setPlan(plan);
-
-        for (Role role: roles) {
-            if(!roleRepository.exists(role.getId())){
-                roleRepository.save(role);
+        User localUser = userRepository.findByEmail(user.getEmail());
+        if(localUser != null){
+            LOG.info("User with email {} and username {} already exists. User not created.", user.getEmail(), user.getUserName());
+        } else{
+            String encryptedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encryptedPassword);
+            Plan plan = new Plan(planEnum);
+            if(!planRepository.exists(planEnum.getId())){
+                planRepository.save(plan);
             }
-            user.add(role);
+            user.setPlan(plan);
+
+            for (Role role: roles) {
+                if(!roleRepository.exists(role.getId())){
+                    roleRepository.save(role);
+                }
+                user.add(role);
+            }
+            localUser = userRepository.save(user);
+
         }
-
-
-        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
-
-        user = userRepository.save(user);
-        return user;
+        return localUser;
     }
 
     @Transactional
@@ -62,6 +69,12 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(password);
         userRepository.updateUserPassword(userId, encodedPassword);
         LOG.debug("Password updated successfully for user id {}", userId);
+
+        Set<PasswordResetToken> tokens = passwordResetTokenRepository.findAllByUserId(userId);
+        if(!tokens.isEmpty()){
+            passwordResetTokenRepository.delete(tokens);
+        }
+
     }
 
 
