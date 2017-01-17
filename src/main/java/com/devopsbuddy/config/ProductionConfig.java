@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @Profile("prod")
-@PropertySource("File:///Users/${user.name}/desktop/Udemy/FullStack/config/app-prod.properties")
+@PropertySource("file:///${user.home}/.devopsbuddy/app-prod.properties")
 public class ProductionConfig {
     @Value("${stripe.prod.private.key}")
     private String stripeProdKey;
