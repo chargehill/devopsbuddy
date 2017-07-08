@@ -120,7 +120,7 @@ public class ForgotPasswordController {
             return CHANGE_PASSWORD_VIEW_NAME;
         }
 
-        if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpirationDate())) {
+        if (LocalDateTime.now(Clock.systemUTC()).isAfter(passwordResetToken.getExpiration())) {
             LOG.error("The token {} has expired", token);
             model.addAttribute(PASSWORD_RESET_ATTRIBUTE_NAME, "false");
             model.addAttribute(MESSAGE_ATTRIBUTE_NAME, i18nService.getMessage("resetPassword.token.expired", locale));

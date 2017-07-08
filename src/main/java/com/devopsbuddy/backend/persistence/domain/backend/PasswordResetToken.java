@@ -29,9 +29,8 @@ public class PasswordResetToken implements Serializable{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "expiration_date")
     @Convert(converter = LocalDateTimeConverter.class)
-    private LocalDateTime expirationDate;
+    private LocalDateTime expiration;
 
 
     public PasswordResetToken() {
@@ -48,7 +47,7 @@ public class PasswordResetToken implements Serializable{
 
         this.token = token;
         this.user = user;
-        this.expirationDate = creationDateTime.plusMinutes(expirationInMinutes);
+        this.expiration = creationDateTime.plusMinutes(expirationInMinutes);
     }
 
     public long getId() {
@@ -75,12 +74,12 @@ public class PasswordResetToken implements Serializable{
         this.user = user;
     }
 
-    public LocalDateTime getExpirationDate() {
-        return expirationDate;
+    public LocalDateTime getExpiration() {
+        return expiration;
     }
 
-    public void setExpirationDate(LocalDateTime expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setExpiration(LocalDateTime expiration) {
+        this.expiration = expiration;
     }
 
     @Override
